@@ -18,6 +18,11 @@ class Downloader:
     def createYoutube(self, url):
         self.youTube = YouTube(url)
 
+    # downloadVideos() download videos and store them in a list
+    # downloadVideos: self -> void
+    def downloadVideos(self):
+        self.videos = self.youTube.get_videos()
+
     # setUrl(url) updates the youTube url for the downloader
     # setUrl: self, String - > void
     def setUrl(self, url):
