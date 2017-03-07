@@ -18,10 +18,15 @@ class Downloader:
     def createYoutube(self, url):
         self.youTube = YouTube(url)
 
-    # downloadVideos() download videos and store them in a list
-    # downloadVideos: self -> void
+    # downloadVideos() download videos and store them in a list. If it fails to
+    # download, it returns False otherwise it returns True
+    # downloadVideos: self -> Bool
     def downloadVideos(self):
-        self.videos = self.youTube.get_videos()
+        try:
+            self.videos = self.youTube.get_videos()
+            return True
+        except:
+            return False
 
     # setUrl(url) updates the youTube url for the downloader
     # setUrl: self, String - > void
