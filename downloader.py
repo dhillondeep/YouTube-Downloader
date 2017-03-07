@@ -27,4 +27,7 @@ class Downloader:
         except:
             self.isValid = False
 
+    # isValidUrl() checks if the url provided is a valid url to download the video from
+    def isValidUrl(self):
+        return self.isValid
 
