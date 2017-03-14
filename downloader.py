@@ -134,3 +134,13 @@ class Downloader:
             return video
         else:
             return False
+
+    # downloadVideo(location) downloads the best resolution video at the location provided.
+    # It returns true if the video is successfully downloaded and false otherwise
+    # downloadVideo: self, location -> Bool
+    def downloadVideo(self, location):
+        try:
+            self.getHighestVideo().download(location)
+            return True
+        except DoesNotExist:
+            return False
