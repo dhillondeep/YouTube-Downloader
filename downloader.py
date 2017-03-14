@@ -1,4 +1,5 @@
 from pytube import YouTube
+from pytube.exceptions import DoesNotExist
 
 """
 Downloader is used to download video and provides functions to handle video properties
@@ -27,7 +28,7 @@ class Downloader:
         try:
             self.videos = self.youTube.get_videos()
             return True
-        except BufferError:
+        except DoesNotExist:
             return False
 
     # getVideoData() gathers important data for the video and stores in dictionary.
@@ -46,9 +47,10 @@ class Downloader:
             self.video_data = {"author": args["author"],
                                "length": args["length_seconds"],
                                "views": args["view_count"],
-                               "rating": args["avg_rating"]}
+                               "rating": args["avg_rating"],
+                               "title": args["title"]}
             return True
-        except BufferError:
+        except DoesNotExist:
             return False
 
     # setUrl(url) updates the youTube url for the downloader
@@ -80,7 +82,53 @@ class Downloader:
     def getViews(self):
         return self.video_data["views"]
 
-    # getRating() returns the the rating of the video
+    # getRating() returns the rating of the video
     # getRating: self -> float
     def getRating(self):
         return self.video_data["rating"]
+
+    # getTitle() returns the title of the video
+    def getTitle(self):
+        return self.video_data["title"]
+
+    # getHighestVideo() returns the highest quality video
+    # getHighestVideo: self -> Any of(Video or Bool)
+    def getHighestVideo(self):
+        video = None
+        gotten = True
+
+        # 720p video
+        try:
+            video = self.youTube.get('mp4', '720p')
+            gotten = True
+        except DoesNotExist:
+            gotten = False
+
+        # 480p video
+        if not gotten:
+            try:
+                video = self.youTube.get('mp4', '480p')
+                gotten = True
+            except DoesNotExist:
+                gotten = False
+
+        # 360p video
+        if not gotten:
+            try:
+                video = self.youTube.get('mp4', '360p')
+                gotten = True
+            except DoesNotExist:
+                gotten = False
+
+        # 240p video
+        if not gotten:
+            try:
+                video = self.youTube.get('mp4', '240p')
+                gotten = True
+            except DoesNotExist:
+                gotten = False
+
+        if gotten:
+            return video
+        else:
+            return False
