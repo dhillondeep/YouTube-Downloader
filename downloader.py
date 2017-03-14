@@ -39,6 +39,7 @@ class Downloader:
         # length: length_seconds
         # views: view_count
         # rating: avg_rating
+        # title: title
 
         try:
             data = self.youTube.get_video_data()
@@ -62,10 +63,11 @@ class Downloader:
     # getTime() returns the time in hours, minutes and seconds
     # getTime: self -> string
     def getTime(self):
-        time_sec = self.video_data["time"]
-        seconds = time_sec % 60
+        time_sec = int(self.video_data["length"])
+        seconds = int(time_sec % 60)
         minutes = time_sec / 60
-        hours = time_sec / 3600
+        hours = int(minutes / 60)
+        minutes = int(minutes - (hours * 60))
 
         if hours != 0:
             return "{}:{}:{}".format(hours, minutes, seconds)
