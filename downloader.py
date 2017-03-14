@@ -27,7 +27,7 @@ class Downloader:
         try:
             self.videos = self.youTube.get_videos()
             return True
-        except:
+        except BufferError:
             return False
 
     # getVideoData() gathers important data for the video and stores in dictionary.
@@ -48,7 +48,7 @@ class Downloader:
                                "views": args["view_count"],
                                "rating": args["avg_rating"]}
             return True
-        except:
+        except BufferError:
             return False
 
     # setUrl(url) updates the youTube url for the downloader
@@ -56,3 +56,31 @@ class Downloader:
     def setUrl(self, url):
         self.url = url
         self.createYoutube(self.url)
+
+    # getTime() returns the time in hours, minutes and seconds
+    # getTime: self -> string
+    def getTime(self):
+        time_sec = self.video_data["time"]
+        seconds = time_sec % 60
+        minutes = time_sec / 60
+        hours = time_sec / 3600
+
+        if hours != 0:
+            return "{}:{}:{}".format(hours, minutes, seconds)
+        else:
+            return "{}:{}".format(minutes, seconds)
+
+    # getAuthor() returns the name of the author of the video
+    # getAuthor: self -> string
+    def getAuthor(self):
+        return self.video_data["author"]
+
+    # getViews() returns the view count of the video
+    # getViews: self -> int
+    def getViews(self):
+        return self.video_data["views"]
+
+    # getRating() returns the the rating of the video
+    # getRating: self -> float
+    def getRating(self):
+        return self.video_data["rating"]
