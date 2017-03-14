@@ -9,6 +9,7 @@ class Downloader:
     def __init__(self, url):
         self.url = url
         self.videos = None
+        self.video_data = None
         self.youTube = YouTube(url)
         self.createYoutube(self.url)
 
@@ -22,8 +23,30 @@ class Downloader:
     # download, it returns False otherwise it returns True
     # downloadVideos: self -> Bool
     def downloadVideos(self):
+        # download videos and store them
         try:
             self.videos = self.youTube.get_videos()
+            return True
+        except:
+            return False
+
+    # getVideoData() gathers important data for the video and stores in dictionary.
+    # It returns true if data gathered successfully and false otherwise
+    # getVideoData: self -> Bool
+    def getVideoData(self):
+        # name: author
+        # length: length_seconds
+        # views: view_count
+        # rating: avg_rating
+
+        try:
+            data = self.youTube.get_video_data()
+            args = data["args"]
+
+            self.video_data = {"author": args["author"],
+                               "length": args["length_seconds"],
+                               "views": args["view_count"],
+                               "rating": args["avg_rating"]}
             return True
         except:
             return False
@@ -33,4 +56,3 @@ class Downloader:
     def setUrl(self, url):
         self.url = url
         self.createYoutube(self.url)
-
