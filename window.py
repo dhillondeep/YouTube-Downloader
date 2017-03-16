@@ -29,7 +29,7 @@ class Window:
         # set style for different components
         self.style = ttk.Style()
         self.style.configure("TFrame", background = "#64b3d9")
-        self.style.configure("TButton", background = "#64b3d9")
+        self.style.configure("TButton", background = "#64b3d9", font=("Segoe UI", 12))
         self.style.configure("TLabel", background = "#64b3d9", font = ("Agency FB", 15))
         self.style.configure("S.TLabel", background = "#64b3d9", font = ("Agency FB", 20))
 
@@ -40,20 +40,16 @@ class Window:
         ttk.Label(self.frame, image = self.background).grid(row = 0, column = 0)
 
         # text field to get url
-        self.text_field = ttk.Entry(self.frame, width = 45)
+        self.text_field = ttk.Entry(self.frame, width = 40)
         self.text_field.place(x = 20, y = 180)
 
         # search button
         self.search_btn = ttk.Button(self.frame, text = "Search")
-        self.search_btn.place(x = 310, y = 178)
+        self.search_btn.place(x = 280, y = 175)
 
         # download video button
         self.video_btn = ttk.Button(self.frame, text = "Download Video")
-        self.video_btn.place(x = 90, y = 470)
-
-        # download audio button
-        self.audio_btn = ttk.Button(self.frame, text = "Download Audio")
-        self.audio_btn.place(x = 220, y = 470)
+        self.video_btn.place(x = 145, y = 470)
 
         # status label
         self.status = ttk.Label(self.frame, wraplength = 350, text = "Type Url of the video that you want to download!")
@@ -61,26 +57,24 @@ class Window:
         self.status.place(x = 35, y = 510)
 
         # labels to show video information
-        self.title_label = ttk.Label(self.frame, text = "", wraplength = 200)
-        self.title_label.place(x = 150, y = 234)
+        self.title_label = ttk.Label(self.frame, text = "", wraplength = 260, foreground = "white")
+        self.title_label.place(x = 130, y = 234)
 
-        self.author_label = ttk.Label(self.frame, text = "")
-        self.author_label.place(x = 150, y = 312)
+        self.author_label = ttk.Label(self.frame, text = "", wraplength = 260, foreground = "white")
+        self.author_label.place(x = 130, y = 312)
 
-        self.views_label = ttk.Label(self.frame, text = "")
-        self.views_label.place(x = 150, y = 365)
+        self.views_label = ttk.Label(self.frame, text = "", wraplength = 260, foreground = "white")
+        self.views_label.place(x = 130, y = 365)
 
-        self.length_label = ttk.Label(self.frame, text = "")
-        self.length_label.place(x = 150, y = 415)
+        self.length_label = ttk.Label(self.frame, text = "", wraplength = 260, foreground = "white")
+        self.length_label.place(x = 130, y = 415)
 
         # disable all the buttons except search
         self.video_btn.config(state=DISABLED)
-        self.audio_btn.config(state=DISABLED)
 
         # add event listeners to buttons
         self.search_btn.config(command = self.searchAction)
         self.video_btn.config(command = self.videoAction)
-        self.audio_btn.config(command = self.audioAction)
 
         # video location
         self.location = None
@@ -104,7 +98,6 @@ class Window:
 
                 # unblock buttons
                 self.video_btn.config(state = "Normal")
-                self.audio_btn.config(state = "Normal")
             else:
                 self.status.config(text = "Error occurred while searching")
 
@@ -155,8 +148,3 @@ class Window:
         self.location = location
         self.downloader.downloadBestVideo()
         self.status.config(text = "Downloading video")
-
-    # videoAction() performs commands when download audio button is clicked
-    # audioAction: self -> void
-    def audioAction(self):
-        pass
