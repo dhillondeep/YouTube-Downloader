@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="af1e810d-c2af-46ef-b515-13c3711a186b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/downloader.py" afterPath="$PROJECT_DIR$/downloader.py" />
     </list>
+=======
+    <list default="true" id="af1e810d-c2af-46ef-b515-13c3711a186b" name="Default" comment="" />
+>>>>>>> Stashed changes
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,9 +41,18 @@
       <file leaf-file-name="api.py" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/pytube/api.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
             <state relative-caret-position="619">
               <caret line="224" column="8" lean-forward="false" selection-start-line="224" selection-start-column="8" selection-end-line="224" selection-end-column="8" />
               <folding />
+=======
+            <state relative-caret-position="735">
+              <caret line="15" column="50" lean-forward="false" selection-start-line="15" selection-start-column="50" selection-end-line="15" selection-end-column="50" />
+              <folding>
+                <element signature="e#0#21#0" expanded="true" />
+                <element signature="e#47#109#1" expanded="true" />
+              </folding>
+>>>>>>> Stashed changes
             </state>
           </provider>
         </entry>
@@ -421,7 +434,32 @@
       <option name="project" value="LOCAL" />
       <updated>1489453574184</updated>
     </task>
+<<<<<<< Updated upstream
     <option name="localTasksCounter" value="2" />
+=======
+    <task id="LOCAL-00002" summary="getTime function updated and fixed minor bugs">
+      <created>1489523948879</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1489523948879</updated>
+    </task>
+    <task id="LOCAL-00003" summary="downloadVideo function added to download video to specific location">
+      <created>1489524219514</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1489524219514</updated>
+    </task>
+    <task id="LOCAL-00004" summary="window created and widgets added">
+      <created>1489585733505</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1489585733505</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+>>>>>>> Stashed changes
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -456,7 +494,14 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="added functions named downloadVideos and getVideoData" />
+<<<<<<< Updated upstream
     <option name="LAST_COMMIT_MESSAGE" value="added functions named downloadVideos and getVideoData" />
+=======
+    <MESSAGE value="getTime function updated and fixed minor bugs" />
+    <MESSAGE value="downloadVideo function added to download video to specific location" />
+    <MESSAGE value="window created and widgets added" />
+    <option name="LAST_COMMIT_MESSAGE" value="window created and widgets added" />
+>>>>>>> Stashed changes
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -647,5 +692,35 @@
         </state>
       </provider>
     </entry>
+<<<<<<< Updated upstream
+=======
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/tkinter/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="122549">
+          <caret line="3262" column="8" lean-forward="false" selection-start-line="3262" selection-start-column="8" selection-end-line="3262" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/tkinter/constants.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3038">
+          <caret line="62" column="9" lean-forward="false" selection-start-line="62" selection-start-column="9" selection-end-line="62" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/window.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret line="15" column="50" lean-forward="false" selection-start-line="15" selection-start-column="50" selection-end-line="15" selection-end-column="50" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+            <element signature="e#47#109#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+>>>>>>> Stashed changes
   </component>
 </project>
