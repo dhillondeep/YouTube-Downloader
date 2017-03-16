@@ -9,6 +9,12 @@ Downloader will download files using different thread
 
 
 class Downloader:
+    # constants
+    DATA = "data"
+    VIDEO = "video"
+    VIDEOS = "videos"
+    SAVED = "saved"
+
     def __init__(self, url):
         self._url = url
         self._videos = None
@@ -17,11 +23,9 @@ class Downloader:
         self._h_video = None
         self._location = None
 
-        # boolean to keep track when video is downloaded
-        self._data_acquired = False
-        self._video_downloaded = False
-        self._videos_downloaded = False
-        self._video_saved = False
+        # dictionaries to keep track of threads execution and errors occured
+        self._error = {"data": False, "video": False, "videos": False, "saved": False}
+        self._finished = {"data": False, "video": False, "videos": False, "saved": False}
 
         self._createYoutube(self._url)
 
@@ -46,9 +50,10 @@ class Downloader:
         # download videos and store them
         try:
             self._videos = self._youTube.get_videos()
-            self._videos_downloaded = True
         except DoesNotExist:
-            self._videos_downloaded = False
+            self._error[self.VIDEOS] = True
+
+        self._finished[self.VIDEOS] = True
 
     # downloadVideoData() gathers important data for the video and stores it in
     # dictionary.
@@ -69,7 +74,7 @@ class Downloader:
         # title: title
 
         try:
-            data = self.youTube.get_video_data()
+            data = self._youTube.get_video_data()
             args = data["args"]
 
             self._video_data = {"author": args["author"],
@@ -77,9 +82,10 @@ class Downloader:
                                 "views": args["view_count"],
                                 "rating": args["avg_rating"],
                                 "title": args["title"]}
-            self._data_acquired = True
         except DoesNotExist:
-            self._data_acquired = False
+            self._error[self.DATA] = True
+
+        self._finished[self.DATA] = True
 
     # downloadBestVideo() downloads the highest quality video and stores it
     # downloadBestVideo: self -> void
@@ -128,9 +134,9 @@ class Downloader:
 
         if gotten:
             self._video = video
-            self._video_downloaded = True
+            self._finished[self.VIDEO] = True
         else:
-            self._video_downloaded = False
+            self._error[self.VIDEO] = True
 
     # saveVideo(location) saves the best resolution video at the location
     # saveVideo: self -> Void
@@ -145,12 +151,12 @@ class Downloader:
     # save: self -> void
     # effects: changes value of _video_saved boolean
     def _save(self):
-        print("Saving video")
         try:
-            self.video.download(self._location)
-            self._video_saved = True
+            self._video.download(self._location, 8 * 1024, None, None, True)
         except DoesNotExist:
-            self._video_saved = False
+            self._error[self.SAVED] = True
+
+        self._finished[self.SAVED] = True
 
     # setUrl(url) updates the youTube url for the downloader
     # setUrl: self, String - > void
@@ -193,22 +199,20 @@ class Downloader:
     def getTitle(self):
         return self._video_data["title"]
 
-    # isDataAcquired() returns true if data is acquired and false otherwise
-    # isDataAcquired: self -> boolean
-    def isDataAcquired(self):
-        return self._data_acquired
+    # isFinished(key) returns boolean value for thread execution based on key
+    # isFinished: self, String -> void
+    def isFinished(self, key):
+        return self._finished[key]
 
-    # isVideoDownloaded() returns true if best quality video is downloaded and false otherwise
-    # isVideoDownloaded: self -> boolean
-    def isVideoDownloaded(self):
-        return self._video_downloaded
+    # errorOccurred(key) returns boolean value for error based on key
+    # errorOccurred: self, String -> void
+    def errorOccurred(self, key):
+        return self._error[key]
 
-    # areVideosDownloaded() returns true if videos are downloaded and false otherwise
-    # areVideosDownloaded: self -> boolean
-    def areVideosDownloaded(self):
-        return self._videos_downloaded
-
-    # isVideoSaved() returns true if best quality video is saved and false otherwise
-    # isVideoSaved: self -> boolean
-    def isVideoSaved(self):
-        return self._video_saved
+    # resetThreadBool(key) resets the thread execution and error report based on key
+    # resetThreadBool: self, String -> void
+    # effects: changes value of _error and _finished
+    # _videos_downloaded or _video_saved
+    def resetThreadReport(self, key):
+        self._finished[key] = False
+        self._error[key] = False

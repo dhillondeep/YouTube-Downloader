@@ -2,7 +2,6 @@ from tkinter import *
 from tkinter import ttk
 from downloader import Downloader
 from tkinter import filedialog
-import threading
 
 """
 Window is a GUI used by user to download youtube video
@@ -84,42 +83,51 @@ class Window:
         self.video_btn.config(command = self.videoAction)
         self.audio_btn.config(command = self.audioAction)
 
-        # download thread
-        self.search_thread = None
-        self.downloadV_thread = None
-        self.downloadA_thread = None
-
-        # other variables
-        self.video_searched = False
-        self.video_downloaded = False
-        self.audio_downloaded = False
+        # video location
+        self.location = None
+        self.saving = False
 
         self.master.mainloop()
 
     def actions(self):
-        if self.search_thread is not None:
-            if not self.search_thread.isAlive() and not self.video_searched:
-                if self.downloader.data_aquired:
-                    self.title_label.config(text=self.downloader.getTitle())
-                    self.author_label.config(text=self.downloader.getAuthor())
-                    self.views_label.config(text=self.downloader.getViews())
-                    self.length_label.config(text=self.downloader.getTime())
-                    self.status.config(text = "Video Successfully Searched")
-                    self.video_searched = True
+        if self.downloader.isFinished(self.downloader.DATA):
+            if not self.downloader.errorOccurred(self.downloader.DATA):
+                self.title_label.config(text = self.downloader.getTitle())
+                self.author_label.config(text = self.downloader.getAuthor())
+                self.views_label.config(text = self.downloader.getViews())
+                self.length_label.config(text = self.downloader.getTime())
+                self.status.config(text = "Video Successfully Searched")
 
-                    # enable download buttons
-                    self.video_btn.config(state=NORMAL)
-                    self.audio_btn.config(state=NORMAL)
-                else:
-                    self.status.config(text="Error occurred while searching")
+                # unblock buttons
+                self.video_btn.config(state = "Normal")
+                self.audio_btn.config(state = "Normal")
+            else:
+                self.status.config(text = "Error occurred while searching")
 
-        if self.downloadV_thread is not None:
-            if not self.downloadV_thread.isAlive() and not self.video_downloaded:
-                if self.downloader.video_downloaded:
-                    print("GG")
-                    self.video_downloaded = True
-                else:
-                    print("No GG")
+            # reset
+            self.downloader.resetThreadReport(self.downloader.DATA)
+
+        if self.downloader.isFinished(self.downloader.VIDEO):
+            if not self.downloader.errorOccurred(self.downloader.VIDEO):
+                if not self.saving:
+                    self.downloader.saveVideo(self.location)
+                    self.saving = True
+                    self.status.config(text = "Saving Video")
+            else:
+                self.status.config(text = "Error occurred while downloading video")
+
+            # reset
+            self.downloader.resetThreadReport(self.downloader.VIDEO)
+
+        if self.downloader.isFinished(self.downloader.SAVED):
+            self.saving = False
+            if not self.downloader.errorOccurred(self.downloader.SAVED):
+                self.status.config(text = "Video Successfully Saved")
+            else:
+                self.status.config(text = "Could not Save Video")
+
+            # reset
+                self.downloader.resetThreadReport(self.downloader.SAVED)
 
         self.master.after(1000, self.actions)
 
@@ -129,21 +137,14 @@ class Window:
 
         if value != "":
             self.downloader.setUrl(value)
-            self.search_thread = threading.Thread(target=self.downloader.getVideoData)
-            self.search_thread.start()
-
-            self.video_searched = False
+            self.downloader.downloadVideoData()
             self.status.config(text="Searching for the video")
 
     def videoAction(self):
         location = filedialog.askdirectory()
-
-        if location != "":
-            print("Location: ", location)
-            self.downloader.setLocation(location)
-            #self.downloadV_thread = threading.Thread(target=self.downloader.downloadVideo)
-            self.downloader.downloadVideo()
-            self.video_downloaded = False
+        self.location = location
+        self.downloader.downloadBestVideo()
+        self.status.config(text = "Downloading video")
 
     def audioAction(self):
         pass
