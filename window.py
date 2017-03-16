@@ -29,6 +29,7 @@ class Window:
         # set style for different components
         self.style = ttk.Style()
         self.style.configure("TFrame", background = "#64b3d9")
+        self.style.configure("TButton", background = "#64b3d9")
         self.style.configure("TLabel", background = "#64b3d9", font = ("Agency FB", 15))
         self.style.configure("S.TLabel", background = "#64b3d9", font = ("Agency FB", 20))
 
@@ -39,7 +40,7 @@ class Window:
         ttk.Label(self.frame, image = self.background).grid(row = 0, column = 0)
 
         # text field to get url
-        self.text_field = ttk.Entry(self.frame, width = 45, style = "TEntry")
+        self.text_field = ttk.Entry(self.frame, width = 45)
         self.text_field.place(x = 20, y = 180)
 
         # search button
