@@ -1,6 +1,5 @@
 from tkinter import *
 from tkinter import ttk
-from downloader import Downloader
 from tkinter import filedialog
 
 """
@@ -30,7 +29,6 @@ class Window:
         # set style for different components
         self.style = ttk.Style()
         self.style.configure("TFrame", background = "#64b3d9")
-        self.style.configure("TButton", background = "#64b3d9", Font = ("Agency FB", 20))
         self.style.configure("TLabel", background = "#64b3d9", font = ("Agency FB", 15))
         self.style.configure("S.TLabel", background = "#64b3d9", font = ("Agency FB", 20))
 
@@ -89,7 +87,12 @@ class Window:
 
         self.master.mainloop()
 
+    # actions() runs a loop along size mainloop every 1s and checks of
+    # actions to be performed. The actions that were pending and now
+    # complete are executed here
+    # actions: self -> void
     def actions(self):
+        # when data download finishes
         if self.downloader.isFinished(self.downloader.DATA):
             if not self.downloader.errorOccurred(self.downloader.DATA):
                 self.title_label.config(text = self.downloader.getTitle())
@@ -107,6 +110,7 @@ class Window:
             # reset
             self.downloader.resetThreadReport(self.downloader.DATA)
 
+        # when video download finishes
         if self.downloader.isFinished(self.downloader.VIDEO):
             if not self.downloader.errorOccurred(self.downloader.VIDEO):
                 if not self.saving:
@@ -119,6 +123,7 @@ class Window:
             # reset
             self.downloader.resetThreadReport(self.downloader.VIDEO)
 
+        # when video saving finishes
         if self.downloader.isFinished(self.downloader.SAVED):
             self.saving = False
             if not self.downloader.errorOccurred(self.downloader.SAVED):
@@ -131,6 +136,8 @@ class Window:
 
         self.master.after(1000, self.actions)
 
+    # searchAction() performs commands when search button is clicked
+    # searchAction: self -> void
     def searchAction(self):
         # get text from text field
         value = self.text_field.get()
@@ -140,22 +147,15 @@ class Window:
             self.downloader.downloadVideoData()
             self.status.config(text="Searching for the video")
 
+    # videoAction() performs commands when download video button is clicked
+    # videoAction: self -> void
     def videoAction(self):
         location = filedialog.askdirectory()
         self.location = location
         self.downloader.downloadBestVideo()
         self.status.config(text = "Downloading video")
 
+    # videoAction() performs commands when download audio button is clicked
+    # audioAction: self -> void
     def audioAction(self):
         pass
-
-
-def main():
-    d = Downloader(None)
-    w = Window(d)
-
-
-if __name__ == '__main__':
-    main()
-
-
